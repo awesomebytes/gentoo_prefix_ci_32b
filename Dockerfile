@@ -52,7 +52,7 @@ RUN patch < circular_dependencies.patch
 
 # Bootstrap Gentoo Prefix
 # This stops on emerge of gcc-8.2.0-r4, bug #672042
-RUN linux32 echo "Y\n\
+RUN echo "Y\n\
 \n\
 ${EPREFIX}\n\
 luck\n" | ./bootstrap-prefix.sh || true
@@ -60,7 +60,7 @@ luck\n" | ./bootstrap-prefix.sh || true
 RUN dmesg
 # So we just do it again to get thru
 # hopefully avoiding the circular dependencies error too, thanks to the patch
-RUN linux32 echo "Y\n\
+RUN echo "Y\n\
 \n\
 ${EPREFIX}\n\
 luck\n" | ./bootstrap-prefix.sh || true
@@ -79,7 +79,7 @@ RUN rm -f ${EPREFIX}/tmp/usr/bin/perl && ln -s /usr/bin/perl ${EPREFIX}/tmp/usr/
 RUN mkdir ${EPREFIX}/tmp/usr/lib/python-exec/python2.7 && cd ${EPREFIX}/tmp/usr/lib/python-exec/python2.7 && ln -s ../../../bin/python2.7 python2 && ln -s python2 python
 
 # Let's go again
-RUN linux32 echo "Y\n\
+RUN echo "Y\n\
 \n\
 ${EPREFIX}\n\
 luck\n" | ./bootstrap-prefix.sh
