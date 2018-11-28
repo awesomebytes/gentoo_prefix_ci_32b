@@ -84,4 +84,13 @@ RUN echo "Y\n\
 ${EPREFIX}\n\
 luck\n" | ./bootstrap-prefix.sh
 
+# Here perl went thru, so we need to go back to use the system one to avoid
+# libperl.so.5.26: cannot open shared object file: No such file or directory
+RUN rm -f ${EPREFIX}/tmp/usr/bin/perl && ln -s /usr/bin/perl ${EPREFIX}/tmp/usr/bin/perl
+
+RUN echo "Y\n\
+\n\
+${EPREFIX}\n\
+luck\n" | ./bootstrap-prefix.sh
+
 ENTRYPOINT ["/bin/bash"]
