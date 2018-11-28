@@ -38,6 +38,12 @@ RUN wget https://gitweb.gentoo.org/repo/proj/prefix.git/plain/scripts/bootstrap-
 RUN chmod +x bootstrap-prefix.sh
 ENV EPREFIX /tmp/gentoo
 
+# Needed for 32b to avoid (on zlib compilation)
+# fatal error: sys/cdefs.h: No such file or directory
+ENV CXXFLAGS -m32
+ENV CFLAGS -m32
+ENV LDFLAGS -m32
+
 # Patch bug #668940
 COPY circular_dependencies.patch circular_dependencies.patch
 RUN patch < circular_dependencies.patch
