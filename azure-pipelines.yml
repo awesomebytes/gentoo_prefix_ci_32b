@@ -12,7 +12,7 @@ jobs:
       vmImage: 'Ubuntu 16.04'
 
     steps:
-    - script: setarch i686 docker build -f Dockerfile -t gentoo_prefix_latest_image .
+    - script: linux32 docker build -f Dockerfile -t gentoo_prefix_latest_image .
       displayName: 'docker build'
       # This means up to 6h
       timeoutInMinutes: 0
