@@ -40,9 +40,11 @@ ENV EPREFIX /tmp/gentoo
 
 # Needed for 32b to avoid (on zlib compilation)
 # fatal error: sys/cdefs.h: No such file or directory
-ENV CXXFLAGS -m32
-ENV CFLAGS -m32
-ENV LDFLAGS -m32
+ENV CHOST i686
+RUN uname -m
+# ENV CXXFLAGS -m32
+# ENV CFLAGS -m32
+# ENV LDFLAGS -m32
 
 # Patch bug #668940
 COPY circular_dependencies.patch circular_dependencies.patch
