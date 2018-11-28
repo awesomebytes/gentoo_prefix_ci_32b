@@ -40,7 +40,7 @@ ENV EPREFIX /tmp/gentoo
 
 # Needed for 32b to avoid (on zlib compilation)
 # fatal error: sys/cdefs.h: No such file or directory
-ENV CHOST i686
+ENV CHOST i686-pc-gnu-linux
 RUN uname -m
 # ENV CXXFLAGS -m32
 # ENV CFLAGS -m32
