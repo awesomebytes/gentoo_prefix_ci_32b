@@ -5,7 +5,7 @@
 
 # Everything must be under a 'job' to be able to set the timeoutInMinutes
 jobs:
-  - job: "bootstrap stage 1 and 2"
+  - job: "bootstrap_stage_1_and_2"
     timeoutInMinutes: 0
 
     pool:
@@ -46,9 +46,9 @@ jobs:
     #   displayName: 'push image to DockerHub'
  
 
-  - job: "bootstrap stage 3 part 1"
+  - job: "bootstrap_stage_3_part_1"
     timeoutInMinutes: 0
-    dependsOn: "bootstrap stage 1 and 2"
+    dependsOn: "bootstrap_stage_1_and_2"
 
     pool:
       vmImage: 'Ubuntu 16.04'
@@ -75,9 +75,9 @@ jobs:
       displayName: 'push image to DockerHub'
 
 
-  - job: "bootstrap stage 3 part 2"
+  - job: "bootstrap_stage_3_part_2"
     timeoutInMinutes: 0
-    dependsOn: "bootstrap stage 3 part 1"
+    dependsOn: "bootstrap_stage_3_part_1"
 
     pool:
       vmImage: 'Ubuntu 16.04'
