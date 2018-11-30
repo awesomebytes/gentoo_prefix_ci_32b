@@ -125,6 +125,7 @@
 # luck\n" | ./bootstrap-prefix.sh || true
 
 FROM awesomebytes/gentoo_prefix_32b_latest_image_stage_3_1
+ENV CHOST i686-pc-linux-gnu
 
 # On * running emerge -u system
 # we fall into circular dependencies again, so we do the same we did for ${EPREFIX}/tmp

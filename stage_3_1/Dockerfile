@@ -59,6 +59,7 @@
 # luck\n" | ./bootstrap-prefix.sh || true
 
 FROM awesomebytes/gentoo_prefix_32b_latest_image_initial
+ENV CHOST i686-pc-linux-gnu
 
 # To workaround bug #670836
 # perl error about errno.h and error_t.h
