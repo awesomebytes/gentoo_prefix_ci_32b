@@ -52,7 +52,7 @@ RUN uname -m
 RUN echo "Y\n\
 \n\
 ${EPREFIX}\n\
-luck\n" | ./bootstrap-prefix.sh || true
+luck\n" | ./bootstrap-prefix.sh
 
 # RUN echo "Y\n\
 # \n\
