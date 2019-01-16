@@ -1,6 +1,6 @@
 FROM fedora:28
 
-RUN dnf check-update
+RUN dnf check-update || true
 RUN dnf install @development-tools -y
 RUN dnf install sudo -y
 
@@ -28,6 +28,6 @@ ENV CHOST i686-pc-linux-gnu
 # RUN uname -m
 
 # Bootstrap Gentoo Prefix
-RUN linux32 PREFIX_DISABLE_RAP=yes ./bootstrap-prefix.sh /tmp/gentoo noninteractive
+RUN PREFIX_DISABLE_RAP=yes linux32 ./bootstrap-prefix.sh /tmp/gentoo noninteractive
 
 ENTRYPOINT ["/bin/bash"]
