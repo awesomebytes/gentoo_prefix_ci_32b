@@ -33,6 +33,6 @@ RUN wget https://gitweb.gentoo.org/repo/proj/prefix.git/plain/scripts/bootstrap-
 ENV EPREFIX /tmp/gentoo
 
 # Bootstrap Gentoo Prefix
-RUN linux32 ./bootstrap-prefix.sh ${EPREFIX} noninteractive
+RUN LATEST_TREE_YES=1 TESTING_PV=latest linux32 ./bootstrap-prefix.sh ${EPREFIX} noninteractive
 
 ENTRYPOINT ["/bin/bash"]
