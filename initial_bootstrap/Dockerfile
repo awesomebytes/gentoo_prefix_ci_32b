@@ -32,11 +32,7 @@ RUN cat /proc/cpuinfo && cat /proc/meminfo && df -h
 RUN wget https://gitweb.gentoo.org/repo/proj/prefix.git/plain/scripts/bootstrap-prefix.sh && chmod +x bootstrap-prefix.sh
 ENV EPREFIX /tmp/gentoo
 
-# Needed for 32b
-ENV CHOST i686-pc-linux-gnu
-# RUN uname -m
-
 # Bootstrap Gentoo Prefix
-RUN ./bootstrap-prefix.sh ${EPREFIX} noninteractive
+RUN linux32 ./bootstrap-prefix.sh ${EPREFIX} noninteractive
 
 ENTRYPOINT ["/bin/bash"]

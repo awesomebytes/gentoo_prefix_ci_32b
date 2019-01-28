@@ -23,9 +23,6 @@ RUN df -h
 
 RUN curl -O https://gitweb.gentoo.org/repo/proj/prefix.git/plain/scripts/bootstrap-prefix.sh
 RUN chmod +x bootstrap-prefix.sh
-# Needed for 32b
-ENV CHOST i686-pc-linux-gnu
-# RUN uname -m
 
 # Bootstrap Gentoo Prefix
 RUN PREFIX_DISABLE_RAP=yes linux32 ./bootstrap-prefix.sh /tmp/gentoo noninteractive
