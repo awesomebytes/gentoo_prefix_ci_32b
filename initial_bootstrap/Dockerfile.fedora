@@ -5,6 +5,9 @@ RUN dnf install @development-tools -y
 RUN dnf install gcc-c++ -y
 RUN dnf install sudo -y
 
+# we are creating a 32bit prefix on a 64bit host
+RUN dnf install glibc-devel.i686 -y
+
 # Create user
 RUN useradd --create-home --shell=/bin/bash user
 RUN chown -R user /home/user/
