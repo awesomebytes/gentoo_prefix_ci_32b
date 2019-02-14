@@ -30,6 +30,7 @@ USER user
 RUN cat /proc/cpuinfo && cat /proc/meminfo && df -h
 
 RUN wget https://gitweb.gentoo.org/repo/proj/prefix.git/plain/scripts/bootstrap-prefix.sh && chmod +x bootstrap-prefix.sh
+RUN sed -i "s/EXTRA_ECONF=\"/EXTRA_ECONF=\"--with-mtune=atom\ /;s/--host/--with-mtune=atom --host/;3iexport EXTRA_ECONF=\"--with-tune=atom\"" bootstrap-prefix.sh
 ENV EPREFIX /tmp/gentoo
 
 # Bootstrap Gentoo Prefix
