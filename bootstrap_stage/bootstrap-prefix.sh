@@ -963,6 +963,7 @@ bootstrap_python() {
 	if ${patch}; then
 		# This patch is critical and needs to be applied even
 		# when using the otherwise unpatched sources.
+		# In Fedora, cause of https://bugs.gentoo.org/674784, we workaround by providing the patch ourselves
 		efetch "http://dev.gentoo.org/~grobian/distfiles/python-3.6-02_all_disable_modules_and_ssl.patch"
 		patch -p0 < "${DISTDIR}"/python-3.6-02_all_disable_modules_and_ssl.patch
 	fi
@@ -2740,6 +2741,8 @@ EOF
 		exit 1
 	fi
 
+	[[ ${STOP_AFTER_STAGE} == 'stage1' ]] && exit 0
+
 	unset ROOT
 
 	# stage1 has set a profile, which defines CHOST, so unset any CHOST
@@ -2789,6 +2792,8 @@ EOF
 		exit 1
 	fi
 
+	[[ ${STOP_AFTER_STAGE} == 'stage2' ]] && exit 0
+
 	# new bash
 	hash -r
 
@@ -2826,6 +2831,8 @@ Should you want to give it a try, there is ${EPREFIX}/stage3.log
 EOF
 		exit 1
 	fi
+
+	[[ ${STOP_AFTER_STAGE} == 'stage3' ]] && exit 0
 
 	local cmd="emerge -e system"
 	if [[ -e ${EPREFIX}/var/cache/edb/mtimedb ]] && \
@@ -3059,6 +3066,9 @@ einfo "host:   ${CHOST}"
 einfo "prefix: ${ROOT}"
 
 TODO=${2}
+# In order to bootstrap in phases for CI, allow to stop after a specific stage
+# in noninteractive mode
+STOP_AFTER_STAGE=${3}
 if [[ ${TODO} != "noninteractive" && $(type -t bootstrap_${TODO}) != "function" ]];
 then
 	eerror "bootstrap target ${TODO} unknown"
