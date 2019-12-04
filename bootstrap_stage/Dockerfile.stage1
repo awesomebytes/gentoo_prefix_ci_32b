@@ -1,10 +1,8 @@
 # Prepared Ubuntu 16.04
-FROM awesomebytes/gentoo_prefix_ci_prepare
+FROM awesomebytes/gentoo_prefix_ci_prepare_32b
 
 # Let's get some specs of the machine that is running this job
-RUN cat /proc/cpuinfo
-RUN cat /proc/meminfo
-RUN df -h
+RUN cat /proc/cpuinfo && cat /proc/meminfo && df -h
 
 # RUN wget https://gitweb.gentoo.org/repo/proj/prefix.git/plain/scripts/bootstrap-prefix.sh
 # hack until https://bugs.gentoo.org/699718 is fixed
