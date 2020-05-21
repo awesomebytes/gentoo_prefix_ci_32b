@@ -2030,9 +2030,13 @@ bootstrap_stage3() {
 	# now we have a shell right there
 	unset CONFIG_SHELL
 
+	# Try a previous version of xz-utils to overcome https://bugs.gentoo.org/722784
+	echo ">=app-arch/xz-utils-5.2.5" >> "${ROOT}/etc/portage/package.mask"
+	echo ">=app-arch/xz-utils-5.2.5" >> "${ROOT}/tmp/etc/portage/package.mask"
+
 	# Build portage and dependencies.
 	pkgs=(
-		app-arch/xz-utils-5.2.4-r2
+		app-arch/xz-utils
 		sys-apps/coreutils
 		sys-apps/findutils
 		app-arch/gzip
