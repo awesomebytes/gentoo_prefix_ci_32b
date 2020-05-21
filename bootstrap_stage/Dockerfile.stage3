@@ -4,6 +4,10 @@ FROM awesomebytes/gentoo_prefix_ci_stage2_32b
 # Let's get some specs of the machine that is running this job
 RUN cat /proc/cpuinfo && cat /proc/meminfo && df -h
 
+RUN rm /home/user/bootstrap-prefix.sh
+COPY --chown=user:user bootstrap-prefix.sh /home/user/bootstrap-prefix.sh
+RUN chmod +x bootstrap-prefix.sh
+
 # Bootstrap Gentoo Prefix
 RUN LATEST_TREE_YES=1 TESTING_PV=latest linux32 ./bootstrap-prefix.sh ${EPREFIX} noninteractive stage3
 
