@@ -2032,6 +2032,7 @@ bootstrap_stage3() {
 
 	# Build portage and dependencies.
 	pkgs=(
+		app-arch/xz-utils-5.2.4-r2
 		sys-apps/coreutils
 		sys-apps/findutils
 		app-arch/gzip
