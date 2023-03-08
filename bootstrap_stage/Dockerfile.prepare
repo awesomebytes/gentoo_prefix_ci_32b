@@ -22,6 +22,8 @@ RUN apt-get install bash-completion nano net-tools less iputils-ping vim emacs w
 RUN apt-get install python-pip python-dev  -y
 # To enable ssh
 RUN apt-get install openssh-server -y
+# Download tools
+RUN apt-get install wget curl aria2 -y
 
 WORKDIR /home/user
 USER user
