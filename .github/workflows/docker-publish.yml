@@ -102,7 +102,7 @@ jobs:
         with:
           push: true
           context: .
-          file: bootstrap_stage/Dockerfile.prepare
+          file: bootstrap_stage/Dockerfile.stage1
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
