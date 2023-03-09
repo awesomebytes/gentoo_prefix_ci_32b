@@ -58,17 +58,23 @@ jobs:
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
-        id: build-and-push
+      -
+        name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: {context}/bootstrap_stage
-          file: Dockerfile.prepare
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: user/app:latest
+      # - name: Build and push Docker image
+      #   id: build-and-push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     context: {context}/bootstrap_stage
+      #     file: Dockerfile.prepare
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
+      #     cache-from: type=gha
+      #     cache-to: type=gha,mode=max
 
 
       # Sign the resulting Docker image digest except on PRs.
