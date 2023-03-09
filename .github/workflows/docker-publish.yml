@@ -12,7 +12,8 @@ on:
 
 jobs:
   gentoo_prefix_ci_prepare_32:
-    environment: gentoo_prefix_ci_prepare_32
+    environment: 
+      name : gentoo_prefix_ci_prepare_32
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,11 +25,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Install cosign
-        uses: sigstore/cosign-installer@main
-        with:
-          cosign-release: 'v2.0.0'
 
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
@@ -65,7 +61,8 @@ jobs:
 
   gentoo_prefix_ci_stage1_32:
     needs : gentoo_prefix_ci_prepare_32
-    # env: gentoo_prefix_ci_stage1_32
+    environment: 
+      name: gentoo_prefix_ci_stage1_32
     runs-on: ubuntu-latest
     permissions:
       contents: read
