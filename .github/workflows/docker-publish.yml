@@ -16,8 +16,9 @@ env:
 
 jobs:
   build:
-    matrix:
-      image-name: ["gentoo_prefix_ci_prepare_32"]
+    strategy:
+      matrix:
+        image-name: ["gentoo_prefix_ci_prepare_32"]
     runs-on: ubuntu-latest
     permissions:
       contents: read
