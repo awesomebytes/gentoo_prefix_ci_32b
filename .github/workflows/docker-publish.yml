@@ -13,7 +13,7 @@ on:
 jobs:
   gentoo_prefix_ci_prepare_32:
     environment: 
-      name : gentoo_prefix_ci_prepare_32
+      name : 'gentoo_prefix_ci_prepare_32'
     runs-on: ubuntu-latest
     permissions:
       contents: read
