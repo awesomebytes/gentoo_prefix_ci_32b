@@ -10,15 +10,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-
 jobs:
   gentoo_prefix_ci_prepare_32:
-    strategy:
-      matrix:
-        image-name: ["gentoo_prefix_ci_prepare_32"]
+    env: gentoo_prefix_ci_prepare_32
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,7 +42,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image-name }}
+          images: ${{ secrets.DOCKER_USERNAME }}/${{ env.name }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
