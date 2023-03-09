@@ -68,6 +68,8 @@ jobs:
           context: .
           file: bootstrap_stage/Dockerfile.prepare
           tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       # - name: Build and push Docker image
       #   id: build-and-push
       #   uses: docker/build-push-action@v4
@@ -77,8 +79,6 @@ jobs:
       #     file: Dockerfile.prepare
       #     tags: 
       #     labels: ${{ steps.meta.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
 
 
       # Sign the resulting Docker image digest except on PRs.
