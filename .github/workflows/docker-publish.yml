@@ -11,10 +11,10 @@ on:
     branches: [ "master" ]
 
 jobs:
-  gentoo_prefix_ci_prepare_32:
+  gentoo_prefix_ci_prepare_32b:
     strategy: 
       matrix:
-        name : [gentoo_prefix_ci_prepare_32]
+        name : [gentoo_prefix_ci_prepare_32b]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,10 +45,6 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
-          # tags: |
-          #   type=schedule,enable=true,pattern={{date 'YYYYMMDD'}}
-          #   type=ref,event=tag
-          #   type=semver,pattern={{version}}
           flavor: latest=true
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -65,11 +61,11 @@ jobs:
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
 
-  gentoo_prefix_ci_stage1_32:
-    needs : gentoo_prefix_ci_prepare_32
+  gentoo_prefix_ci_stage1_32b:
+    needs : gentoo_prefix_ci_prepare_32b
     strategy: 
       matrix:
-        name: [gentoo_prefix_ci_stage1_32]
+        name: [gentoo_prefix_ci_stage1_32b]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -100,9 +96,6 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
-          # tags: type=schedule,enable=true,pattern={{date 'YYYYMMDD'}}
-            # type=ref,event=tag
-            # type=semver,pattern={{version}}
           flavor: latest=true
 
 
