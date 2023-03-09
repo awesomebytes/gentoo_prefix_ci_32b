@@ -314,3 +314,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
+      # extract the zip file
+      - name : Create .tar.lzma of /tmp/gentoo 
+        run: docker run --entrypoint /tmp/gentoo/executeonprefix ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: gentoo_on_tmp.tar.lzma
+          path: ~/gentoo_on_tmp.tar.lzma
