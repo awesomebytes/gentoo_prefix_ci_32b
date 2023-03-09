@@ -54,7 +54,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ github.jobs.${{ github.job }}.name }}
+          images: ${{ env.REGISTRY }}/${{ jobs.1.name }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
