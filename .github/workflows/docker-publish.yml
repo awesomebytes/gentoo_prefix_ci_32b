@@ -65,8 +65,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: ./bootstrap_stage
-          file: Dockerfile.prepare
+          context: .
+          file: bootstrap_stage/Dockerfile.prepare
           tags: ${{ steps.meta.outputs.tags }}
       # - name: Build and push Docker image
       #   id: build-and-push
