@@ -56,7 +56,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ matrix.image-name }}
+          images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image-name }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -65,7 +65,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: user/app:latest
+          file: Dockerfile.prepare
+          tags: ${{ steps.meta.outputs.tags }}
       # - name: Build and push Docker image
       #   id: build-and-push
       #   uses: docker/build-push-action@v4
@@ -73,7 +74,7 @@ jobs:
       #     push: true
       #     context: {context}/bootstrap_stage
       #     file: Dockerfile.prepare
-      #     tags: ${{ steps.meta.outputs.tags }}
+      #     tags: 
       #     labels: ${{ steps.meta.outputs.labels }}
       #     cache-from: type=gha
       #     cache-to: type=gha,mode=max
