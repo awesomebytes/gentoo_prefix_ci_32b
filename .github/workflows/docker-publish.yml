@@ -14,7 +14,7 @@ jobs:
   gentoo_prefix_ci_prepare_32:
     strategy: 
       matrix:
-        name : 'gentoo_prefix_ci_prepare_32'
+        name : [gentoo_prefix_ci_prepare_32]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -64,7 +64,7 @@ jobs:
     needs : gentoo_prefix_ci_prepare_32
     strategy: 
       matrix:
-        name: gentoo_prefix_ci_stage1_32
+        name: [gentoo_prefix_ci_stage1_32]
     runs-on: ubuntu-latest
     permissions:
       contents: read
