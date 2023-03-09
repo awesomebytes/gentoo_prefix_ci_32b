@@ -45,6 +45,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
+          tags: |
+            type=schedule,pattern={{date 'YYYYMMDD'}}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -58,6 +60,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          labels: ${{ steps.meta.outputs.labels }}
 
   gentoo_prefix_ci_stage1_32:
     needs : gentoo_prefix_ci_prepare_32
@@ -94,6 +97,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
+          tags: |
+            type=schedule,pattern={{date 'YYYYMMDD'}}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
