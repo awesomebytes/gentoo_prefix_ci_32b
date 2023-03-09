@@ -97,7 +97,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
-          tags: type=schedule,enable=true,pattern={{date 'YYYYMMDD'}}
+          # tags: type=schedule,enable=true,pattern={{date 'YYYYMMDD'}}
             # type=ref,event=tag
             # type=semver,pattern={{version}}
           flavor: latest=true
