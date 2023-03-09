@@ -15,8 +15,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  build:
-    gentoo_prefix_ci_prepare_32:
+  gentoo_prefix_ci_prepare_32:
+    strategy:
       matrix:
         image-name: ["gentoo_prefix_ci_prepare_32"]
     runs-on: ubuntu-latest
