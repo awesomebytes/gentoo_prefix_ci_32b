@@ -12,8 +12,9 @@ on:
 
 jobs:
   gentoo_prefix_ci_prepare_32:
-    environment: 
-      name : 'gentoo_prefix_ci_prepare_32'
+    strategy: 
+      matrix:
+        name : 'gentoo_prefix_ci_prepare_32'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -43,7 +44,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/${{ env.name }}
+          images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -61,8 +62,9 @@ jobs:
 
   gentoo_prefix_ci_stage1_32:
     needs : gentoo_prefix_ci_prepare_32
-    environment: 
-      name: gentoo_prefix_ci_stage1_32
+    strategy: 
+      matrix:
+        name: gentoo_prefix_ci_stage1_32
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -92,7 +94,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/${{ env.name }}
+          images: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.name }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
