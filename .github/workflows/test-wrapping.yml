@@ -49,10 +49,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           tags: |
-            type=schedule
+            type=sha
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}}
             type=semver,pattern={{version}}
             type=ref,event=branch
-            type=sha
           images: ${{ matrix.image }}
           flavor: latest=true
       -
@@ -63,8 +63,8 @@ jobs:
           context: ./package_stage
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
       # extract the zip file
       - name : Create .tar.lzma of /tmp/gentoo 
