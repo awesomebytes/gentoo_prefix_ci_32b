@@ -20,15 +20,15 @@ jobs:
       matrix:
         include:
           - dockerfile: ./bootstrap_stage/Dockerfile.prepare
-            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_prepare_32b
+            image: ghcr.io/gentoo_prefix_ci_prepare_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage1
-            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_stage1_32b
+            image: ghcr.io/gentoo_prefix_ci_stage1_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage2
-            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_stage2_32b
+            image: ghcr.io/gentoo_prefix_ci_stage2_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage3
-            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_stage3_32b
+            image: ghcr.io/gentoo_prefix_ci_stage3_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.emergesystem
-            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_emerge_system_32b
+            image: ghcr.io/gentoo_prefix_ci_emerge_system_32b
     permissions:
       contents: read
       packages: write
