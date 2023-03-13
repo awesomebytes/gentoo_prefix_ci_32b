@@ -55,6 +55,8 @@ jobs:
             type=ref,event=branch
           images: ${{ matrix.image }}
           flavor: latest=true
+      - name: This echo the meta data output
+        run: echo ${{ steps.meta.outputs.tags }}
       -
         name: Build and push
         uses: docker/build-push-action@v3

@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        max-parallel: 1
+        fail-fast: true
         include:
           - dockerfile: ./bootstrap_stage/Dockerfile.prepare
             image: ghcr.io/gentoo_prefix_ci_prepare_32b
