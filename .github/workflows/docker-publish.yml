@@ -75,7 +75,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./package_stage/Dockerfile
-            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
+            image: ghcr.io/gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
     permissions:
       contents: read
       packages: write
