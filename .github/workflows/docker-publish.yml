@@ -12,17 +12,23 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  PREPARE_IMAGE: gentoo_prefix_ci_prepare_32b
-  STAGE1_IMAGE: gentoo_prefix_ci_stage1_32b
-  STAGE2_IMAGE: gentoo_prefix_ci_stage2_32b
-  STAGE3_IMAGE: gentoo_prefix_ci_stage3_32b
-  EMERGE_SYSTEM_IMAGE: gentoo_prefix_ci_emerge_system_32b
-  PACKAGE_IMAGE: gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
 
 jobs:
   bootstrap_stage:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - dockerfile: ./bootstrap_stage/Dockerfile.prepare
+            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_prepare_32b
+          - dockerfile: ./bootstrap_stage/Dockerfile.stage1
+            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_stage1_32b
+          - dockerfile: ./bootstrap_stage/Dockerfile.stage2
+            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_stage2_32b
+          - dockerfile: ./bootstrap_stage/Dockerfile.stage3
+            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_stage3_32b
+          - dockerfile: ./bootstrap_stage/Dockerfile.emergesystem
+            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_emerge_system_32b
     permissions:
       contents: read
       packages: write
@@ -44,99 +50,19 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Prepare 
       - name: Extract Docker metadata Prepare
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.PREPARE_IMAGE }}
+          images: ${{ matrix.image }}
           flavor: latest=true
-
       -
         name: Build and push Prepare
         uses: docker/build-push-action@v4
         with:
           push: true
           context: ./bootstrap_stage
-          file: bootstrap_stage/Dockerfile.prepare
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          labels: ${{ steps.meta.outputs.labels }}
-
-      # Stage 1
-      - name: Extract Docker metadata Stage 1
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.STAGE1_IMAGE }}
-          flavor: latest=true
-      -
-        name: Build and push Stage 1
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          context: ./bootstrap_stage
-          file: bootstrap_stage/Dockerfile.stage1
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          labels: ${{ steps.meta.outputs.labels }}
-
-
-      # Stage 2
-      - name: Extract Docker metadata Stage 2
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.STAGE2_IMAGE}}
-          flavor: latest=true
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          context: ./bootstrap_stage
-          file: bootstrap_stage/Dockerfile.stage2
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          labels: ${{ steps.meta.outputs.labels }}
-
-      # Stage 3
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.STAGE3_IMAGE }}
-          flavor: latest=true
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          context: .
-          file: bootstrap_stage/Dockerfile.stage3
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          labels: ${{ steps.meta.outputs.labels }}
-
-        # Emerge system
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.EMERGE_SYSTEM_IMAGE }}
-          flavor: latest=true
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          context: .
-          file: bootstrap_stage/Dockerfile.emergesystem
+          file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -145,6 +71,11 @@ jobs:
   package_stage:
     needs : bootstrap_stage 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - dockerfile: ./package_stage/Dockerfile
+            image: ${{ env.REGISTRY }}/gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
     permissions:
       contents: read
       packages: write
@@ -171,26 +102,22 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.PACKAGE_IMAGE }}
+          images: ${{ matrix.image }}
           flavor: latest=true
-
-
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: package_stage
-          file: Dockerfile
+          context: ./package_stage
+          file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
       # extract the zip file
       - name : Create .tar.lzma of /tmp/gentoo 
-        run: docker run --entrypoint /tmp/gentoo/executeonprefix ${{ env.REGISTRY }}/${{ env.PACKAGE_IMAGE }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/
+        run: docker run --entrypoint /tmp/gentoo/executeonprefix ${{ matrix.image }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
