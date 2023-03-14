@@ -24,12 +24,16 @@ jobs:
           - dockerfile: ./bootstrap_stage/Dockerfile.prepare
             image: gentoo_prefix_ci_prepare_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage1
+            base-image: gentoo_prefix_ci_prepare_32b:latest
             image: gentoo_prefix_ci_stage1_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage2
+            base-image: gentoo_prefix_ci_stage1_32b:latest
             image: gentoo_prefix_ci_stage2_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage3
+            base-image: gentoo_prefix_ci_stage2_32b:latest
             image: gentoo_prefix_ci_stage3_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.emergesystem
+            base-image: gentoo_prefix_ci_stage3_32b:latest
             image: gentoo_prefix_ci_emerge_system_32b
     permissions:
       contents: read
@@ -70,6 +74,7 @@ jobs:
           push: true
           context: ./bootstrap_stage
           file: ${{ matrix.dockerfile }}
+          build-args: FROM=${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -83,6 +88,7 @@ jobs:
         include:
           - dockerfile: ./package_stage/Dockerfile
             image: ghcr.io/gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
+            base-image: gentoo_prefix_ci_emerge_system_32b:latest
     permissions:
       contents: read
       packages: write
@@ -123,6 +129,7 @@ jobs:
           context: ./package_stage
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: FROM=${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
