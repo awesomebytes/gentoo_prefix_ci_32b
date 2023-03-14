@@ -22,15 +22,15 @@ jobs:
         fail-fast: true
         include:
           - dockerfile: ./bootstrap_stage/Dockerfile.prepare
-            image: ghcr.io/gentoo_prefix_ci_prepare_32b
+            image: gentoo_prefix_ci_prepare_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage1
-            image: ghcr.io/gentoo_prefix_ci_stage1_32b
+            image: gentoo_prefix_ci_stage1_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage2
-            image: ghcr.io/gentoo_prefix_ci_stage2_32b
+            image: gentoo_prefix_ci_stage2_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.stage3
-            image: ghcr.io/gentoo_prefix_ci_stage3_32b
+            image: gentoo_prefix_ci_stage3_32b
           - dockerfile: ./bootstrap_stage/Dockerfile.emergesystem
-            image: ghcr.io/gentoo_prefix_ci_emerge_system_32b
+            image: gentoo_prefix_ci_emerge_system_32b
     permissions:
       contents: read
       packages: write
@@ -56,7 +56,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ matrix.image }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}
+          tags: |
+            type=sha
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}}
+            type=semver,pattern={{version}}
+            type=ref,event=branch
           flavor: latest=true
       -
         name: Build and push Prepare
@@ -104,7 +109,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ matrix.image }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}
+          tags: |
+            type=sha
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}}
+            type=semver,pattern={{version}}
+            type=ref,event=branch
           flavor: latest=true
       -
         name: Build and push
