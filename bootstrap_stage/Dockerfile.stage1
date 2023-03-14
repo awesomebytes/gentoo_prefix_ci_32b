@@ -1,5 +1,5 @@
 # Prepared Ubuntu 16.04
-FROM tomkimsour/gentoo_prefix_ci_prepare_32b
+FROM ghcr.io/tomkimsour/gentoo_prefix_ci_prepare_32b
 # Let's get some specs of the machine that is running this job
 RUN cat /proc/cpuinfo && cat /proc/meminfo && df -h
 
