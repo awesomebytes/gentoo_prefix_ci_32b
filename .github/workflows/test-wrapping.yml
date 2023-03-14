@@ -53,10 +53,8 @@ jobs:
             type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}}
             type=semver,pattern={{version}}
             type=ref,event=branch
-          images: ${{ matrix.image }}
+          images: ${{ github.repository }}/${{ matrix.image }}
           flavor: latest=true
-      - name: This echo the meta data output
-        run: echo ${{ steps.meta.outputs.tags }}
       -
         name: Build and push
         uses: docker/build-push-action@v3
@@ -65,12 +63,12 @@ jobs:
           context: ./package_stage
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
       # extract the zip file
       - name : Create .tar.lzma of /tmp/gentoo 
-        run: docker run --entrypoint /tmp/gentoo/executeonprefix ${{ matrix.image }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/
+        run: docker run --entrypoint /tmp/gentoo/executeonprefix ${{env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
