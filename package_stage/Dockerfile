@@ -1,5 +1,5 @@
-FROM tomkimsour/gentoo_prefix_ci_emerge_system_32b
-
+ARG FROM
+FROM $FROM
 # Add helpful scripts to use Gentoo Prefix on /tmp/gentoo
 # startprefix just makes sure the softlink to /tmp/gentoo is done
 COPY startprefix startprefix
