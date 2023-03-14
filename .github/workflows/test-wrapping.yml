@@ -21,7 +21,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./package_stage/Dockerfile
-            image: ghcr.io/gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
+            image: gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
     permissions:
       contents: read
       packages: write
@@ -53,11 +53,11 @@ jobs:
             type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}}
             type=semver,pattern={{version}}
             type=ref,event=branch
-          images: ${{ github.repository }}/${{ matrix.image }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}
           flavor: latest=true
 
-      - name: This echo the meta data output
-        run: echo ${{ steps.meta.outputs.tags }}
+      # - name: This echo the meta data output
+      #   run: echo ${{ steps.meta.outputs.tags }}
       -
         name: Build and push
         uses: docker/build-push-action@v3
