@@ -52,7 +52,6 @@ jobs:
             type=sha
             type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}}
             type=semver,pattern={{version}}
-            type=ref,event=branch
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}
           flavor: latest=true
 
@@ -69,12 +68,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
-      # extract the zip file
-      - name : Create .tar.lzma of /tmp/gentoo 
-        run: docker run --entrypoint /tmp/gentoo/executeonprefix ${{env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/
-      
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: gentoo_on_tmp.tar.lzma
-          path: ~/gentoo_on_tmp.tar.lzma
