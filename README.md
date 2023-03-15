@@ -1,6 +1,6 @@
 # gentoo_prefix_ci
 
-[!Build Status](https://github.com/awesomebytes/gentoo_prefix_ci_32b/actions/workflows/docker-publish.yml/badge.svg)
+![Build Status](https://github.com/awesomebytes/gentoo_prefix_ci_32b/actions/workflows/docker-publish.yml/badge.svg)
 
 A [Gentoo Prefix](https://wiki.gentoo.org/wiki/Project:Prefix) continuous integration repo.
 
