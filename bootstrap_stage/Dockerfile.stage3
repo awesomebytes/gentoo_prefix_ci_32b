@@ -1,5 +1,6 @@
 # Prepared Ubuntu 16.04 with stage2 bootstrapped
-FROM awesomebytes/gentoo_prefix_ci_stage2_32b
+ARG FROM
+FROM $FROM
 
 # Let's get some specs of the machine that is running this job
 RUN cat /proc/cpuinfo && cat /proc/meminfo && df -h
