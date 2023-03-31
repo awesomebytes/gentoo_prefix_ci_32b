@@ -72,5 +72,5 @@ jobs:
        
       - name: Create tar file
         run: |
-          docker run --entrypoint /tmp/gentoo/executeonprefix ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/gentoo_on_tmp.tar.lzma
+          docker run --entrypoint /tmp/gentoo/executeonprefix ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }} "tar -c --lzma -f - -C /tmp gentoo" > ~/gentoo_on_tmp.tar.lzma
         
