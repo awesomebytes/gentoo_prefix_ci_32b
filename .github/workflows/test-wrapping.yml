@@ -7,7 +7,7 @@ name: Docker
 
 on:
   push:
-    branches: [ "master","github-action" ]
+    branches: [ "master","github-action-artifact" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
 env:
