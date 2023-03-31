@@ -21,7 +21,8 @@ jobs:
       matrix:
         include:
           - dockerfile: ./package_stage/Dockerfile
-            image: gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
+            image: ghcr.io/gentoo_prefix_ci_gentoo_prefix_boostrapped_32b
+            base-image: gentoo_prefix_ci_emerge_system_32b:latest
     permissions:
       contents: read
       packages: write
@@ -57,14 +58,19 @@ jobs:
 
       # - name: This echo the meta data output
       #   run: echo ${{ steps.meta.outputs.tags }}
-      -
-        name: Build and push
+      - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
           context: ./package_stage
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: FROM=${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
+       
+      - name: Create tar file
+        run: |
+          docker run --entrypoint /tmp/gentoo/executeonprefix ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }}:latest  "tar -c --lzma -f - -C /tmp gentoo" > ~/gentoo_on_tmp.tar.lzma
+        
