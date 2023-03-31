@@ -72,7 +72,7 @@ jobs:
        
       - name: Create tar file
         run: |
-          docker run --platform linux/386 --entrypoint /tmp/gentoo/executeonprefix ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }} "tar -c --lzma -f - -C /tmp gentoo" > ~/gentoo_on_tmp.tar.lzma
+          docker run --platform linux/i386 --entrypoint /tmp/gentoo/executeonprefix ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.base-image }} "tar -c --lzma -f - -C /tmp gentoo" > ~/gentoo_on_tmp.tar.lzma
 
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v3
