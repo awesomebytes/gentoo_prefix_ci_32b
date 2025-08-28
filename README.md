@@ -10,7 +10,7 @@ Builds page (with results and shell outputs): https://github.com/awesomebytes/ge
 
 Ready-to-use releases (with instructions): https://github.com/awesomebytes/gentoo_prefix_ci_32b/releases
 
-Ready-to-use built docker image: `docker pull ghrc.io/awesomebytes/gentoo_prefix_ci_32b/gentoo_prefix_latest_image_package_stage_32b`
+Ready-to-use built docker image: `docker pull ghcr.io/awesomebytes/gentoo_prefix_ci_32b/gentoo_prefix_latest_image_package_stage_32b`
 
 # Try Gentoo Prefix
 
@@ -53,7 +53,7 @@ You can use any of those images (intermediate ones to debug, or the final one to
 
 ```bash
 # To try Gentoo Prefix already bootstrapped in Docker over Ubuntu 16.04 in /tmp/gentoo
-docker pull ghrc.io/awesomebytes/gentoo_prefix_ci_32b/gentoo_prefix_boostrapped_32b:latest
+docker pull ghcr.io/awesomebytes/gentoo_prefix_ci_32b/gentoo_prefix_boostrapped_32b:latest
 docker run -it awesomebytes/gentoo_prefix_ci_32b/gentoo_prefix_boostrapped_32b
 ```
 
